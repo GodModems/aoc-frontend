@@ -1,0 +1,175 @@
+{
+  "emotes": [
+    {
+      "file": "!!!.gif",
+      "name": "Amazing!!!",
+      "tags": ["good", "great", "amazing"]
+    },
+    {
+      "file": "!!.gif",
+      "name": "Great!!",
+      "tags": ["good", "great", "amazing"]
+    },
+    {
+      "file": "!.gif",
+      "name": "Good!",
+      "tags": ["good", "great", "amazing"]
+    },
+    {
+      "file": "!questionmark.gif",
+      "name": "Unexpected",
+      "tags": ["confused", "shocked", "unexpected"]
+    },
+    {
+      "file": "questionmark.gif",
+      "name": "Mistake",
+      "tags": ["mistake", "whoops"]
+    },
+    {
+      "file": "2questionmark.gif",
+      "name": "Big Mistake",
+      "tags": ["mistake", "big mistake", "blunder"]
+    },
+    {
+      "file": "3questionmark.gif",
+      "name": "Super Blunder",
+      "tags": ["mistake", "super mistake", "blunder"]
+    },
+    {
+      "file": "bishop_huh_black.gif",
+      "name": "Bishop Huh",
+      "tags": ["huh", "bishop", "confused", "black"]
+    },
+    {
+      "file": "bishop_huh_white.gif",
+      "name": "Bishop Huh",
+      "tags": ["huh", "bishop", "confused", "white"]
+    },
+    {
+      "file": "bishop_sleep_black.gif",
+      "name": "Bishop Sleeping",
+      "tags": ["sleep", "bishop", "bored", "black"]
+    },
+    {
+      "file": "bishop_sleep_white.gif",
+      "name": "Bishop Sleeping",
+      "tags": ["sleep", "bishop", "bored", "white"]
+    },
+    {
+      "file": "book.gif",
+      "name": "Book Move",
+      "tags": ["book move", "standard"]
+    },
+    {
+      "file": "checkmark.gif",
+      "name": "Good Job",
+      "tags": ["good", "good job", "correct"]
+    },
+    {
+      "file": "emperor_crying_black.gif",
+      "name": "Sad Emperor",
+      "tags": ["sad", "emperor", "cry", "black"]
+    },
+    {
+      "file": "emperor_crying_white.gif",
+      "name": "Sad Emperor",
+      "tags": ["sad", "emperor", "cry", "white"]
+    },
+    {
+      "file": "enpassant_black.gif",
+      "name": "Enpassant",
+      "tags": ["en passant", "pawn", "black"]
+    },
+    {
+      "file": "enpassant_white.gif",
+      "name": "Enpassant",
+      "tags": ["en passant", "pawn", "white"]
+    },
+    {
+      "file": "golden_fork.gif",
+      "name": "Golden Fork",
+      "tags": ["fork", "gold fork", "golden fork"]
+    },
+    {
+      "file": "king_thinking_black.gif",
+      "name": "King Thinking",
+      "tags": ["thinking", "king", "calculating", "black"]
+    },
+    {
+      "file": "king_thinking_white.gif",
+      "name": "King Thinking",
+      "tags": ["thinking", "king", "calculating", "white"]
+    },
+    {
+      "file": "knight_mad_black.gif",
+      "name": "Knight Mad",
+      "tags": ["mad", "knight", "upset", "black"]
+    },
+    {
+      "file": "knight_mad_white.gif",
+      "name": "Knight Mad",
+      "tags": ["mad", "knight", "upset", "white"]
+    },
+    {
+      "file": "not_book.gif",
+      "name": "Not Book",
+      "tags": ["wrong", "incorrect book", "not book", "book"]
+    },
+    {
+      "file": "pawn_cry_black.gif",
+      "name": "Pawn Cry",
+      "tags": ["crying", "pawn", "sad", "upset", "black"]
+    },
+    {
+      "file": "pawn_cry_white.gif",
+      "name": "Pawn Cry",
+      "tags": ["crying", "pawn", "sad", "upset", "white"]
+    },
+    {
+      "file": "pawn_ff_black.gif",
+      "name": "Pawn Surrender",
+      "tags": ["resign", "pawn", "ff", "forfeit", "surrender", "black"]
+    },
+    {
+      "file": "pawn_ff_white.gif",
+      "name": "Pawn Surrender",
+      "tags": ["resign", "pawn", "ff", "forfeit", "surrender", "white"]
+    },
+    {
+      "file": "pawn_fine_black.gif",
+      "name": "Everythings Fine",
+      "tags": ["fine", "pawn", "fire", "coffee", "ok", "black"]
+    },
+    {
+      "file": "pawn_fine_white.gif",
+      "name": "Everythings Fine",
+      "tags": ["fine", "pawn", "fire", "coffee", "ok", "white"]
+    },
+    {
+      "file": "pawn_promote_black.gif",
+      "name": "Promotion",
+      "tags": ["promotion", "pawn", "queen", "black"]
+    },
+    {
+      "file": "pawn_promote_white.gif",
+      "name": "Promotion",
+      "tags": ["promotion", "pawn", "queen", "white"]
+    },
+
+    {
+      "file": "rook_crumble_black.gif",
+      "name": "Rook Crumble",
+      "tags": ["crumble", "rook", "capture", "black"]
+    },
+    {
+      "file": "rook_crumble_white.gif",
+      "name": "Rook Crumble",
+      "tags": ["crumble", "rook", "capture", "white"]
+    },
+    {
+      "file": "X.gif",
+      "name": "Wrong",
+      "tags": ["wrong", "x", "incorrect"]
+    }
+  ]
+}

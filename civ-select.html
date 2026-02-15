@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" data-theme="gold">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Age of Chesspires — Civ Select</title>
+  <link rel="stylesheet" href="assets/css/themes.css" />
+  <link rel="stylesheet" href="assets/css/ui.css" />
+</head>
+<body class="aoc">
+  <div class="bg-checker"></div>
+
+  <main class="layout layout--board">
+    <section class="panel panel--left">
+      <header class="panel__header">
+        <h2 class="panel__title">Emotes</h2>
+      </header>
+      <div class="panel__body">
+        <div class="emote-grid" aria-label="Emotes grid">
+          <button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button><button class="emote" type="button" aria-label="Emote"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel panel--centerwide">
+      <div class="centerwide__top">
+        <div class="centerwide__info">
+          <div class="kicker">Civ Name (Elo)</div>
+          <div class="bigline">Traditional (1200)</div>
+          <div class="kicker" style="margin-top:18px;">Civ Rules</div>
+          <div class="muted">Placeholder rules. Replace with your real civ modifiers and description.</div>
+        </div>
+      </div>
+
+      <div class="centerwide__board">
+        <div class="board" id="board"></div>
+      </div>
+    </section>
+
+    <section class="panel panel--right">
+      <header class="brand">
+        <div class="brand__frame">
+          <div class="brand__title">Age of Chesspires</div>
+        </div>
+      </header>
+
+      <div class="center__content">
+        <section class="section">
+          <div class="section__title"><span class="rule"></span>Gamemode<span class="rule"></span></div>
+          <div class="mode-row">
+            <button class="mode mode--small is-active" type="button"><span class="mode__icon">♟</span><span class="mode__label">Empires</span></button>
+            <button class="mode mode--big" type="button"><span class="mode__icon">♔</span><span class="mode__label">Classic</span></button>
+            <button class="mode mode--small" type="button"><span class="mode__icon">♛</span><span class="mode__label">Custom</span></button>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section__title"><span class="rule"></span>Civ Select<span class="rule"></span></div>
+          <div class="select">
+            <button class="select__value" id="civSelectBtn" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span class="chip__icon">
+                <img id="civSelectIcon" class="badge-img" src="assets/ui/emblems/traditional.png" alt="">
+              </span>
+              <span class="select__caret">▾</span>
+            </button>
+            <div class="select__menu" id="civSelectMenu" role="listbox" aria-label="Choose civilization"></div>
+          </div>
+
+          <a class="btn btn--play" href="game.html">PLAY</a>
+
+          <div class="nav-row">
+            <a class="btn btn--pill btn--blue" href="index.html">Home</a>
+            <a class="btn btn--pill btn--green" href="index.html#leaderboard">Leaderboard</a>
+            <a class="btn btn--pill btn--purple" href="index.html#shop">Shop</a>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footerbar">
+        <div class="avatar" aria-hidden="true"></div>
+        <div class="userbox">
+          <div class="userbox__name" id="usernameLabel">Username</div>
+        </div>
+        <button class="gear" id="openSettings" type="button" aria-label="Open settings">⚙</button>
+      </footer>
+    </section>
+  </main>
+
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal="1"></div>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-label="Settings">
+      <div class="modal__header">
+        <div class="modal__title">Settings</div>
+        <button class="modal__close" type="button" data-close-modal="1">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="field">
+          <label class="field__label" for="usernameInput">Username (local demo)</label>
+          <input id="usernameInput" class="input" type="text" placeholder="Username" autocomplete="off" />
+        </div>
+        <div class="field">
+          <div class="field__label">Theme</div>
+          <div class="theme-grid" id="themeGrid"></div>
+          <div class="hint">Add themes by editing <code>assets/css/themes.css</code> and <code>assets/js/theme.js</code>.</div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--pill" type="button" data-close-modal="1">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/civ-select.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" data-theme="gold">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Age of Chesspires</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Berkshire+Swash&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/themes.css" />
+  <link rel="stylesheet" href="assets/css/ui.css" />
+</head>
+<body class="aoc">
+  <div class="bg-checker"></div>
+
+  <main class="layout layout--home">
+    <!-- LEFT COLUMN: title box + content box -->
+    <div class="col col--left">
+      <section class="panel panel--title">
+        <div class="titlebox">
+          <h2 class="titlebox__title" id="leftTitle">Emotes</h2>
+        </div>
+      </section>
+
+      <section class="panel panel--main">
+        <div class="panel__body" id="leftBody"></div>
+      </section>
+    </div>
+
+    <!-- CENTER COLUMN: title box + content box + user info box -->
+    <div class="col col--center">
+      <section class="panel panel--title">
+        <header class="brand brand--tight">
+          <div class="brand__frame">
+            <div class="brand__title">Age of Chesspires</div>
+          </div>
+        </header>
+      </section>
+
+      <section class="panel panel--main panel--centerMain" aria-label="Navigation panel">
+        <div class="center__content">
+
+
+          <section class="btns">
+          <a class="btn btn--play" href="civ-select.html">
+            <img class="btn__logo" src="assets/ui/misc/logo.png" alt="Age of Chesspires">
+            <span class="btn__label">Play</span>
+          </a>
+
+            <div class="nav-btns">
+              <button class="btn btn--pill btn--profile" data-tab="profile" type="button">Profile</button>
+              <button class="btn btn--pill btn--leaderboard" data-tab="leaderboard" type="button">Leaderboard</button>
+              <button class="btn btn--pill btn--shop" data-tab="shop" type="button">Shop</button>
+              <button class="btn btn--pill btn--learn" onclick="window.open('https://wiki.ageofchesspires.com');" type="button">Learn</button>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="panel panel--footer">
+        <div class="footerbar footerbar--standalone">
+          <button class="userbox__name" id="usernameLabel">Username</button>
+          <button class="gear" id="openSettings" type="button" aria-label="Open settings">⚙</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- RIGHT COLUMN: title box + content box -->
+    <div class="col col--right">
+      <section class="panel panel--title">
+        <div class="titlebox">
+          <h2 class="titlebox__title" id="rightTitle">Civ Rules</h2>
+        </div>
+      </section>
+
+      <section class="panel panel--main">
+        <div class="panel__body" id="rightBody"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Theme/settings modal -->
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal="1"></div>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-label="Settings">
+      <div class="modal__header">
+        <div class="modal__title">Settings</div>
+        <button class="modal__close" type="button" data-close-modal="1">✕</button>
+      </div>
+
+      <div class="modal__body">
+        <div class="field">
+          <label class="field__label" for="usernameInput">Username (local demo)</label>
+          <input id="usernameInput" class="input" type="text" placeholder="Username" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <div class="field__label">Theme</div>
+          <div class="theme-grid" id="themeGrid"></div>
+          <div class="hint">Add themes by editing <code>assets/css/themes.css</code> and <code>assets/js/theme.js</code>.</div>
+        </div>
+      </div>
+
+      <div class="modal__footer">
+        <button class="btn btn--pill" type="button" data-close-modal="1">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/theme.js"></script>
+
+  <script src="assets/js/data/civs.js"></script>
+  <script src="assets/js/data/pieces.js"></script>
+  <script src="assets/js/data/emotes.js"></script>
+  <script src="assets/js/data/index.js"></script>
+  <script src="assets/js/data/ranks.js"></script>
+  <script src="assets/js/data/demo-seeds.js"></script>
+  <script src="assets/js/pages/home.js"></script>
+</body>
+</html>

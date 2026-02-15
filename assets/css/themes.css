@@ -1,0 +1,158 @@
+/* Theme system: all UI colors are driven by CSS variables.
+   To add a theme:
+   1) Add a new :root[data-theme="YOUR_ID"] block here.
+   2) Add an entry in assets/js/theme.js so it appears in the Settings picker.
+*/
+
+:root{
+  /* Fonts */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Berkshire Swash", "Inter", system-ui, sans-serif;
+
+  /* Core palette */
+  --bg: #1f1f1f;
+
+  --panel: #202020;
+  --panel-2: #252525;
+
+  --text: #f2f2f2;
+  --muted: rgba(255,255,255,.7);
+
+  --accent: #e0c050;
+  --accent-2: #c8a940;
+
+  --shadow: rgba(0,0,0,.45);
+
+  --btn-play: #e23a3a;
+  --btn-profile: #3aa0e0;
+  --btn-leaderboard: #33cc44;
+  --btn-shop: #b95cf2;
+  --btn-learn: #e2993a;
+
+  --board-light: #f5f1ed;
+  --board-dark: #1f1f1f;
+
+  --elo-gain: #33cc44;
+  --elo-lose: #e23a3a;
+
+  /* Checker */
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+
+  /* Borders / radii */
+  --border-md: 4px;
+  --border-lg: 5px;
+  --border-xl: 6px;
+
+  --radius-0: 0;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-soft: color-mix(in srgb, var(--shadow) 70%, transparent);
+  --shadow-md: 0 10px 26px var(--shadow);
+  --shadow-lg: 0 12px 40px var(--shadow);
+  --shadow-xl: 0 20px 70px var(--shadow);
+
+  /* Derived “no-hardcode” surfaces/lines (replace prior rgba() usage) */
+  --tint-1:  color-mix(in srgb, var(--text) 6%,  transparent);
+  --tint-2:  color-mix(in srgb, var(--text) 8%,  transparent);
+
+  --shade-1: color-mix(in srgb, var(--board-dark) 10%, transparent);
+  --shade-2: color-mix(in srgb, var(--board-dark) 16%, transparent);
+  --shade-3: color-mix(in srgb, var(--board-dark) 35%, transparent);
+
+  --line-1:  color-mix(in srgb, var(--text) 10%, transparent);
+  --line-2:  color-mix(in srgb, var(--text) 12%, transparent);
+
+  --ring-dim: color-mix(in srgb, var(--board-dark) 25%, transparent);
+
+  --overlay: color-mix(in srgb, var(--board-dark) 55%, transparent);
+  --menu-bg: color-mix(in srgb, var(--panel-2) 92%, var(--bg) 8%);
+
+  /* Light-surface helpers (used by clock/playercard) */
+  --surface-light: color-mix(in srgb, var(--board-light) 88%, var(--panel) 12%);
+  --on-light: var(--board-dark);
+  --muted-on-light: color-mix(in srgb, var(--board-dark) 60%, var(--board-light) 40%);
+
+  /* Accents */
+  --accent-wash: color-mix(in srgb, var(--accent) 26%, transparent);
+
+  /* Leaderboard row highlights */
+  --row-gold:   color-mix(in srgb, var(--accent) 22%, transparent);
+  --row-silver: color-mix(in srgb, var(--text) 12%, transparent);
+  --row-bronze: color-mix(in srgb, var(--accent-2) 18%, transparent);
+}
+
+
+/* Default (matches your gold mockups) */
+:root[data-theme="gold"]{
+    --bg: #1f1f1f;
+  --checker-a: #2e2e2e;
+  --checker-b: #5b5b5b;
+
+  --panel: #2a2a2a;
+  --panel-2: #252525;
+  --text: #f2f2f2;
+  --muted: rgba(255,255,255,.7);
+
+  --accent: #e0c050;
+  --accent-2: #c8a940;
+  --shadow: rgba(0,0,0,.45);
+
+  --btn-play: #e23a3a;
+  --btn-blue: #3aa0e0;
+  --btn-green: #33cc44;
+  --btn-purple: #b95cf2;
+  --btn-learn: #e2993a;
+
+  --board-light: #f5f1ed;
+  --board-dark: #1f1f1f;
+}
+
+/* Slightly cooler gold, higher contrast */
+:root[data-theme="royal-gold"]{
+  --accent: #f2d36b;
+  --accent-2: #d3b44e;
+  --btn-purple: #c279ff;
+}
+
+/* Emerald accent */
+:root[data-theme="emerald"]{
+  --accent: #48d18a;
+  --accent-2: #2aa566;
+  --btn-blue: #3aa0e0;
+  --btn-green: #48d18a;
+  --btn-purple: #9f7cff;
+}
+
+/* Sapphire accent */
+:root[data-theme="sapphire"]{
+  --accent: #62b7ff;
+  --accent-2: #3d92dd;
+  --btn-blue: #62b7ff;
+  --btn-green: #33cc44;
+  --btn-purple: #b95cf2;
+}
+
+/* Amethyst accent */
+:root[data-theme="amethyst"]{
+  --accent: #c48bff;
+  --accent-2: #9f5df0;
+  --btn-blue: #3aa0e0;
+  --btn-green: #33cc44;
+  --btn-purple: #c48bff;
+}
+
+/* Crimson accent */
+:root[data-theme="crimson"]{
+  --accent: #ff6a6a;
+  --accent-2: #de3d3d;
+  --btn-blue: #3aa0e0;
+  --btn-green: #33cc44;
+  --btn-purple: #b95cf2;
+  --btn-danger: #ff6a6a;
+}

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" data-theme="gold">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Age of Chesspires — Game</title>
+  <link rel="stylesheet" href="assets/css/themes.css" />
+  <link rel="stylesheet" href="assets/css/ui.css" />
+</head>
+<body class="aoc">
+  <div class="bg-checker"></div>
+
+  <main class="layout layout--board">
+    <section class="panel panel--left panel--blank">
+      <div class="panel__blank" aria-label="Left panel (reserved)"></div>
+    </section>
+
+    <section class="panel panel--centerwide">
+      <div class="centerwide__board">
+        <div class="board board--big" id="board"></div>
+      </div>
+    </section>
+
+    <section class="panel panel--right">
+      <div class="rightgame">
+        <div class="toprow">
+          <div class="clock">5:00</div>
+          <div class="playercard playercard--top">
+            <div class="avatar avatar--small"></div>
+            <div class="playercard__meta">
+              <div class="playercard__line">Username</div>
+              <div class="playercard__line muted">Civ Name</div>
+              <div class="playercard__line muted">Elo</div>
+            </div>
+          </div>
+        </div>
+
+        <section class="panel panel--inner">
+          <header class="panel__header panel__header--inner">
+            <h2 class="panel__title">Move History</h2>
+            <button class="btn btn--tiny" type="button" id="jumpCurrent">Return to Current Move</button>
+          </header>
+
+          <div class="panel__body panel__body--inner">
+            <div class="moves" id="moves"></div>
+            <div class="history-nav">
+              <button class="btn btn--tiny" type="button" id="prevMove">◀</button>
+              <button class="btn btn--tiny" type="button" id="nextMove">▶</button>
+            </div>
+
+            <div class="game-actions">
+              <button class="btn btn--tiny btn--blue" type="button">Draw</button>
+              <div class="elochange">+50 / +1 / -49</div>
+              <button class="btn btn--tiny btn--danger" type="button">Resign</button>
+            </div>
+          </div>
+        </section>
+
+        <div class="bottomrow">
+          <div class="emote-box">
+            <div class="emote-box__label">Emote</div>
+            <div class="clock clock--small">5:00</div>
+          </div>
+
+          <div class="playercard playercard--bottom">
+            <div class="avatar avatar--small avatar--dark"></div>
+            <div class="playercard__meta">
+              <div class="playercard__line">Username</div>
+              <div class="playercard__line muted">Civ Name</div>
+              <div class="playercard__line muted">Elo</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-row" style="margin-top: 10px;">
+          <a class="btn btn--pill btn--blue" href="index.html">Home</a>
+          <a class="btn btn--pill btn--green" href="index.html#leaderboard">Leaderboard</a>
+          <a class="btn btn--pill btn--purple" href="index.html#shop">Shop</a>
+        </div>
+
+        <div class="footerbar footerbar--compact">
+          <div class="avatar" aria-hidden="true"></div>
+          <div class="userbox">
+            <div class="userbox__name" id="usernameLabel">Username</div>
+          </div>
+          <button class="gear" id="openSettings" type="button" aria-label="Open settings">⚙</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="settingsModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal="1"></div>
+    <div class="modal__card" role="dialog" aria-modal="true" aria-label="Settings">
+      <div class="modal__header">
+        <div class="modal__title">Settings</div>
+        <button class="modal__close" type="button" data-close-modal="1">✕</button>
+      </div>
+      <div class="modal__body">
+        <div class="field">
+          <label class="field__label" for="usernameInput">Username (local demo)</label>
+          <input id="usernameInput" class="input" type="text" placeholder="Username" autocomplete="off" />
+        </div>
+        <div class="field">
+          <div class="field__label">Theme</div>
+          <div class="theme-grid" id="themeGrid"></div>
+          <div class="hint">Add themes by editing <code>assets/css/themes.css</code> and <code>assets/js/theme.js</code>.</div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--pill" type="button" data-close-modal="1">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/game.js"></script>
+</body>
+</html>

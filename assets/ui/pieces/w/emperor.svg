@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1500mm"
+   height="1500mm"
+   viewBox="0 0 1500 1500"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   sodipodi:docname="WhiteEmperor.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.13464715"
+     inkscape:cx="2268.8932"
+     inkscape:cy="2877.8924"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="rect2"
+       style="stroke:#000000;stroke-width:38.7272;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+       d="M 475.05282,386.62731 C 554.52047,333.52805 941.20813,333.1441 1019.9465,378.76726 916.25869,521.82506 886.50588,729.66794 902.04572,936.11006 H 600.81362 C 612.12651,734.84762 564.46051,514.93182 475.05282,386.62731 Z"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       id="rect1"
+       style="stroke:#000000;stroke-width:38.2851;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+       d="m 369.14255,883.55444 c 78.60431,55.93645 688.34815,59.98124 761.71485,0 73.3667,-59.98124 -82.5305,406.19496 -82.5305,406.19496 H 449.70806 c 0,0 -159.16982,-462.13141 -80.56551,-406.19496 z"
+       sodipodi:nodetypes="zzccz" />
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:39.6875;stroke-opacity:1;fill-opacity:1"
+       d="m 192.57122,1104.337 212.22135,-1.965"
+       id="path3" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:39.6875;stroke-opacity:1;fill-opacity:1"
+       id="path2"
+       cx="190.60622"
+       cy="1102.3719"
+       r="51.090324" />
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:39.6875;stroke-opacity:1;fill-opacity:1"
+       d="m 1102.372,1112.1971 188.6412,-1.965"
+       id="path4"
+       sodipodi:nodetypes="cc" />
+  </g>
+</svg>
