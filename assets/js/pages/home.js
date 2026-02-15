@@ -95,6 +95,102 @@
       saveLbState(st);
     }
 
+    // Volume control (5 steps + mute)
+    const VOL_KEY = "aoc_volume_v1";
+
+    function loadVolume() {
+      try {
+        const v = JSON.parse(localStorage.getItem(VOL_KEY) || "null");
+        if (v && typeof v === "object") {
+          const level = Math.min(5, Math.max(0, Number(v.level) || 0));
+          const lastLevel = Math.min(5, Math.max(1, Number(v.lastLevel) || 3));
+          const muted = !!v.muted;
+          return { level, lastLevel, muted };
+        }
+      } catch {}
+      return { level: 3, lastLevel: 3, muted: false };
+    }
+
+    function saveVolume(st) {
+      localStorage.setItem(VOL_KEY, JSON.stringify(st));
+    }
+
+    function levelToIconSrc(level, muted) {
+      if (muted || level <= 0) return "assets/ui/misc/volume-off.svg";
+      if (level <= 2) return "assets/ui/misc/volume-low.svg";
+      return "assets/ui/misc/volume-high.svg";
+    }
+
+    function applyVolumeUI() {
+      const muteBtn = document.getElementById("volumeMuteBtn");
+      const icon = document.getElementById("volumeIcon");
+      const barsWrap = document.getElementById("volumeBars");
+      if (!muteBtn || !icon || !barsWrap) return;
+
+      const st = loadVolume();
+      const shownLevel = st.muted ? 0 : st.level;
+
+      // icon
+      icon.src = levelToIconSrc(st.level, st.muted);
+
+      // bars
+      barsWrap.querySelectorAll(".volbar").forEach((b) => {
+        const lvl = Number(b.getAttribute("data-level") || 0);
+        b.classList.toggle("is-on", lvl > 0 && lvl <= shownLevel);
+        b.setAttribute("aria-checked", String(lvl === shownLevel));
+      });
+
+      // muted styling
+      const root = muteBtn.closest(".volctrl");
+      if (root) root.classList.toggle("is-muted", st.muted);
+
+      // expose to rest of app (0.0 - 1.0)
+      const volume01 = st.muted ? 0 : (st.level / 5);
+      window.AOC = window.AOC || {};
+      window.AOC.audio = window.AOC.audio || {};
+      window.AOC.audio.volume = volume01;
+      window.AOC.audio.muted = st.muted;
+
+      window.dispatchEvent(new CustomEvent("aoc:volumechange", { detail: { volume: volume01, muted: st.muted } }));
+    }
+
+    function bindVolumeUI() {
+      const muteBtn = document.getElementById("volumeMuteBtn");
+      const barsWrap = document.getElementById("volumeBars");
+      if (!muteBtn || !barsWrap) return;
+
+      muteBtn.addEventListener("click", () => {
+        const st = loadVolume();
+        if (st.muted) {
+          st.muted = false;
+          st.level = st.lastLevel || 3;
+        } else {
+          st.muted = true;
+          st.lastLevel = st.level || st.lastLevel || 3;
+        }
+        saveVolume(st);
+        applyVolumeUI();
+      });
+
+      barsWrap.addEventListener("click", (e) => {
+        const b = e.target.closest(".volbar");
+        if (!b) return;
+
+        const lvl = Math.min(5, Math.max(1, Number(b.getAttribute("data-level") || 1)));
+        const st = loadVolume();
+        st.level = lvl;
+        st.lastLevel = lvl;
+        st.muted = false;
+        saveVolume(st);
+        applyVolumeUI();
+      });
+
+      applyVolumeUI();
+    }
+
+    // Call once after the modal/settings DOM exists:
+    bindVolumeUI();
+
     // =========================================================
     // UTILITIES
     // =========================================================

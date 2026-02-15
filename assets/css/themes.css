@@ -35,14 +35,11 @@
   --elo-gain: #33cc44;
   --elo-lose: #e23a3a;
 
-  /* Checker */
-  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
-  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
 
   /* Borders / radii */
   --border-md: 4px;
   --border-lg: 5px;
-  --border-xl: 6px;
+  --border-xl: 7px;
 
   --radius-0: 0;
   --radius-sm: 10px;
@@ -51,13 +48,18 @@
   --radius-xl: 18px;
   --radius-pill: 999px;
 
+  /* Derived Colors */
+  /* Checker */
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+
   /* Elevation */
   --shadow-soft: color-mix(in srgb, var(--shadow) 70%, transparent);
   --shadow-md: 0 10px 26px var(--shadow);
   --shadow-lg: 0 12px 40px var(--shadow);
   --shadow-xl: 0 20px 70px var(--shadow);
 
-  /* Derived “no-hardcode” surfaces/lines (replace prior rgba() usage) */
+  /* Surfaces/Lines */
   --tint-1:  color-mix(in srgb, var(--text) 6%,  transparent);
   --tint-2:  color-mix(in srgb, var(--text) 8%,  transparent);
 
@@ -90,9 +92,7 @@
 
 /* Default (matches your gold mockups) */
 :root[data-theme="gold"]{
-    --bg: #1f1f1f;
-  --checker-a: #2e2e2e;
-  --checker-b: #5b5b5b;
+  --bg: #1f1f1f;
 
   --panel: #2a2a2a;
   --panel-2: #252525;
@@ -111,13 +111,102 @@
 
   --board-light: #f5f1ed;
   --board-dark: #1f1f1f;
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
 }
 
-/* Slightly cooler gold, higher contrast */
-:root[data-theme="royal-gold"]{
-  --accent: #f2d36b;
-  --accent-2: #d3b44e;
-  --btn-purple: #c279ff;
+
+:root[data-theme="forest"]{
+  /* Core palette (green / parchment theme) */
+  --bg: #425133;
+
+  --panel: #EBECD0;
+  --panel-2: #E1DFC3;
+
+  --text: #16210B;
+  --muted: rgba(22, 33, 11, .70);
+
+  --accent: #92775F;
+  --accent-2: #857158;
+
+  --shadow: rgba(0, 0, 0, .35);
+
+  /* UI callouts (from the mock) */
+  --btn-play: #578047;        /* red (e.g., resign) */
+  --btn-profile: #4DC6C8;     /* teal (e.g., draw / elo gain) */
+  --btn-leaderboard: #739552; /* board green */
+  --btn-shop: #92775F;        /* tan accent */
+  --btn-learn: #B7A88E;       /* softer tan */
+
+  /* Board */
+  --board-light: #EBECD0;
+  --board-dark: #739552;
+
+  /* Elo */
+  --elo-gain: #4DC6C8;
+  --elo-lose: #CD3C3A;
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+}
+
+:root[data-theme="woody"]{
+  /* Burgundy / Tan (from the brown board mock) */
+  --bg: #4d3434;
+
+  --panel: #f0d9b5;     /* parchment surfaces */
+  --panel-2: #462f2f;   /* dark cards (move history) */
+
+  --text: #1a0d0d;      /* text on parchment */
+  --muted: rgba(26, 13, 13, .70);
+
+  --accent: #b58863;    /* tan */
+  --accent-2: #dec2a5;  /* highlight tan */
+
+  --shadow: rgba(0,0,0,.45);
+
+  --btn-play: #cc6969;
+  --btn-profile: #6384ba;
+  --btn-leaderboard: #b58863;
+  --btn-shop: #7f8b50;
+  --btn-learn: #f3dbc2;
+
+  --board-light: #f0d9b5;
+  --board-dark: #b58863;
+
+  --elo-gain: #6384ba;
+  --elo-lose: #b25b5b;
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+}
+
+:root[data-theme="pink"]{
+  /* Pink / Magenta (from the pink board mock) */
+  --bg: #fae9f7;
+
+  --panel: #fae3f5;     /* light pink surfaces */
+  --panel-2: #751f62;   /* deep magenta cards (move history) */
+
+  --text: #751f62;      /* text on light surfaces */
+  --muted: rgba(117, 31, 98, .70);
+
+  --accent: #f082dc;    /* hot pink */
+  --accent-2: #98117f;  /* deep magenta */
+
+  --shadow: rgba(0,0,0,.20);
+
+  --btn-play: #e6409f;
+  --btn-profile: #7abbd6;
+  --btn-leaderboard: #f082dc;
+  --btn-shop: #98117f;
+  --btn-learn: #bd61ac;
+
+  --board-light: #ffddf8;
+  --board-dark: #f082dc;
+
+  --elo-gain: #7abbd6;
+  --elo-lose: #e6409f;
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
 }
 
 /* Emerald accent */
@@ -136,6 +225,8 @@
   --btn-blue: #62b7ff;
   --btn-green: #33cc44;
   --btn-purple: #b95cf2;
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
 }
 
 /* Amethyst accent */
@@ -145,6 +236,8 @@
   --btn-blue: #3aa0e0;
   --btn-green: #33cc44;
   --btn-purple: #c48bff;
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
 }
 
 /* Crimson accent */
@@ -155,4 +248,6 @@
   --btn-green: #33cc44;
   --btn-purple: #b95cf2;
   --btn-danger: #ff6a6a;
+  --checker-a: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
+  --checker-b: color-mix(in srgb, var(--board-dark) 75%, var(--board-light) 25%);
 }

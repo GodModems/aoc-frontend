@@ -3,12 +3,14 @@
 
 (function(){
   const THEMES = [
-    { id: "gold",        name: "Gold (Default)",  swatch: ["#e0c050", "#2a2a2a"] },
-    { id: "royal-gold",  name: "Royal Gold",      swatch: ["#f2d36b", "#262626"] },
-    { id: "emerald",     name: "Emerald",         swatch: ["#48d18a", "#262626"] },
-    { id: "sapphire",    name: "Sapphire",        swatch: ["#62b7ff", "#262626"] },
-    { id: "amethyst",    name: "Amethyst",        swatch: ["#c48bff", "#262626"] },
-    { id: "crimson",     name: "Crimson",         swatch: ["#ff6a6a", "#262626"] },
+    { id: "gold",         name: "Gold (Default)",   swatch: ["#e0c050", "#2a2a2a"] },
+    { id: "woody",        name: "Woody",            swatch: ["#4d3434", "#f0d9b5"] },
+    { id: "forest",        name: "Green",           swatch: ["#425133", "#EBECD0"] },
+    { id: "pink",         name: "pink",             swatch: ["#fae9f7", "#751f62"] },
+    { id: "emerald",      name: "Emerald",          swatch: ["#48d18a", "#262626"] },
+    { id: "sapphire",     name: "Sapphire",         swatch: ["#62b7ff", "#262626"] },
+    { id: "amethyst",     name: "Amethyst",         swatch: ["#c48bff", "#262626"] },
+    { id: "crimson",      name: "Crimson",          swatch: ["#ff6a6a", "#262626"] },
   ];
 
   const STORAGE_THEME = "aoc_theme";

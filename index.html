@@ -62,7 +62,10 @@
       <section class="panel panel--footer">
         <div class="footerbar footerbar--standalone">
           <button class="userbox__name" id="usernameLabel">Username</button>
-          <button class="gear" id="openSettings" type="button" aria-label="Open settings">⚙</button>
+          <div class="footerbar--btns">
+            <button class="btn--title btn--footerbar" id="openTitles" type="button" aria-label="Open titles">Titles</button>
+            <button class="btn--settings btn--footerbar" id="openSettings" type="button" aria-label="Open settings">Settings</button>
+          </div>
         </div>
       </section>
     </div>
@@ -92,19 +95,32 @@
 
       <div class="modal__body">
         <div class="field">
-          <label class="field__label" for="usernameInput">Username (local demo)</label>
-          <input id="usernameInput" class="input" type="text" placeholder="Username" autocomplete="off" />
-        </div>
+          <label class="field__label" id="volumeLabel">Volume</label>
 
+          <div class="volctrl" role="group" aria-labelledby="volumeLabel">
+            <button class="volctrl__icon" type="button" id="volumeMuteBtn" aria-label="Mute / unmute">
+              <img
+                id="volumeIcon"
+                class="volctrl__iconImg"
+                src="assets/ui/misc/volume-high.svg"
+                alt=""
+                draggable="false"
+              />
+            </button>
+
+            <div class="volctrl__bars" id="volumeBars" role="radiogroup" aria-label="Volume level">
+              <button class="volbar" type="button" data-level="1" aria-label="Volume 1 of 5"></button>
+              <button class="volbar" type="button" data-level="2" aria-label="Volume 2 of 5"></button>
+              <button class="volbar" type="button" data-level="3" aria-label="Volume 3 of 5"></button>
+              <button class="volbar" type="button" data-level="4" aria-label="Volume 4 of 5"></button>
+              <button class="volbar" type="button" data-level="5" aria-label="Volume 5 of 5"></button>
+            </div>
+          </div>
+        </div>
         <div class="field">
           <div class="field__label">Theme</div>
           <div class="theme-grid" id="themeGrid"></div>
-          <div class="hint">Add themes by editing <code>assets/css/themes.css</code> and <code>assets/js/theme.js</code>.</div>
         </div>
-      </div>
-
-      <div class="modal__footer">
-        <button class="btn btn--pill" type="button" data-close-modal="1">Close</button>
       </div>
     </div>
   </div>
