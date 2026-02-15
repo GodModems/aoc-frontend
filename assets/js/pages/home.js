@@ -4,6 +4,7 @@
 // - Left/Right panels swap content based on selected tab (Profile / Leaderboard / Shop).
 // - Uses civs.js as source of truth for civ metadata.
 // - Uses demo-seeds.js (or future DB) for civStats + matchHistory + leaderboard.
+// - Shop items are built from window.AOC.DATA.EMOTES (emotes.js). Supports per-emote price.
 
 (function () {
   if (document.readyState === "loading") {
@@ -32,6 +33,9 @@
     // =========================================================
     const STATE_KEY = "aoc_home_state_v1";
     const LB_STATE_KEY = "aoc_lb_state_v1";
+
+    // Shop cart key (local-only for now)
+    const CART_KEY = "aoc_shop_cart_v1";
 
     function loadState() {
       let s = null;
@@ -134,6 +138,11 @@
       return num > 0 ? `+${num}` : `${num}`;
     }
 
+    function fmtMoney(n) {
+      const v = clampNum(n, 0);
+      return `$${v.toFixed(2)}`;
+    }
+
     // =========================================================
     // DATA SOURCES
     // =========================================================
@@ -200,8 +209,6 @@
       const ll = clampNum(l, 0);
       const t = ww + dd + ll;
 
-      // The swap block uses fixed width and absolute overlay so switching
-      // count <-> pct doesn't reflow other columns.
       function swapHTML(value, pct) {
         return `
           <span class="wdl__swap" style="position:relative;display:inline-block;width:4ch;height:1em;vertical-align:baseline;">
@@ -332,14 +339,12 @@
         return;
       }
 
-      const civStatsSeed = getCivStatsSeed(); // current per-civ stats ONLY
-      const matchHistorySeed = getMatchHistorySeed(); // match history ONLY
+      const civStatsSeed = getCivStatsSeed();
+      const matchHistorySeed = getMatchHistorySeed();
 
       const state0 = loadState();
       const state =
-        state0.selectedCivId && !civById[state0.selectedCivId]
-          ? saveState({ selectedCivId: null })
-          : state0;
+        state0.selectedCivId && !civById[state0.selectedCivId] ? saveState({ selectedCivId: null }) : state0;
 
       // ---- Civ Stats (left) ----
       leftBody.innerHTML = `
@@ -492,7 +497,7 @@
 
       // fallback demo (100 rows)
       const civs = listCivsForUI();
-      const pick = (i) => (civs[i % Math.max(1, civs.length)]?.id || "traditional");
+      const pick = (i) => civs[i % Math.max(1, civs.length)]?.id || "traditional";
 
       return Array.from({ length: 100 }, (_, i) => {
         const rank = i + 1;
@@ -516,7 +521,7 @@
       const rows = rows0
         .filter((r) => !civId || r.civId === civId)
         .slice()
-        .sort((a, b) => (clampNum(b.elo, 0) - clampNum(a.elo, 0)))
+        .sort((a, b) => clampNum(b.elo, 0) - clampNum(a.elo, 0))
         .slice(0, 100);
 
       const modeLabel = mode === "empires" ? "Empires" : "Classic";
@@ -646,9 +651,9 @@
       const st = loadLbState();
 
       const leftModeLabel = st.left.mode === "empires" ? "Empires" : "Classic";
-      const leftCivLabel = st.left.civId === "" ? "All Civs" : st.left.civId
+      const leftCivLabel = st.left.civId === "" ? "All Civs" : st.left.civId;
       const rightModeLabel = st.right.mode === "empires" ? "Empires" : "Classic";
-      const rightCivLabel = st.right.civId === "" ? "All Civs" : st.right.civId
+      const rightCivLabel = st.right.civId === "" ? "All Civs" : st.right.civId;
 
       leftTitle.textContent = `${leftModeLabel} ${leftCivLabel}`;
       leftBody.innerHTML = leaderboardPanelHTML("left");
@@ -660,49 +665,343 @@
     }
 
     // =========================================================
-    // SHOP (mock)
+    // SHOP + CART (top area swaps between item/cart; bottom bar fixed by CSS)
     // =========================================================
-    function renderShop() {
-      leftTitle.textContent = "Items";
-      leftBody.innerHTML = `
-        <div class="shopgrid" id="shopGrid">
-          ${Array.from(
-            { length: 9 },
-            (_, i) => `
-            <button class="shopitem" type="button" data-item="${i}">
-              <div class="shopthumb"></div>
-              <div class="shopprice">[price]</div>
+    function loadCart() {
+      try {
+        const arr = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+        return Array.isArray(arr) ? arr : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCart(arr) {
+      const safe = Array.isArray(arr) ? arr : [];
+      localStorage.setItem(CART_KEY, JSON.stringify(safe));
+    }
+
+    function cartCount(arr) {
+      return (arr || []).reduce((sum, x) => sum + clampNum(x?.qty, 0), 0);
+    }
+
+    function cartTotal(arr) {
+      return (arr || []).reduce((sum, x) => sum + clampNum(x?.qty, 0) * clampNum(x?.price, 0), 0);
+    }
+
+    function getShopItems() {
+      const emotes = Array.isArray(window.AOC?.DATA?.EMOTES) ? window.AOC.DATA.EMOTES : [];
+      return emotes
+        .map((e) => {
+          const id = String(e?.id || "").trim();
+          if (!id) return null;
+
+          const src = String(e?.src || `assets/ui/emotes/${id}.gif`).trim();
+          const name =
+            String(e?.name || id.replace(/[-_]+/g, " ").replace(/\b\w/g, (m) => m.toUpperCase())).trim();
+
+          const priceNum = Number(e?.price);
+          const price = Number.isFinite(priceNum) ? priceNum : 2.99;
+
+          return {
+            id,
+            type: "emote",
+            name,
+            src,
+            price,
+            tags: Array.isArray(e?.tags) ? e.tags : [],
+          };
+        })
+        .filter(Boolean);
+    }
+
+    function getShopRoot() {
+      return rightBody.querySelector(".shop-right");
+    }
+
+    function getShopView() {
+      const root = getShopRoot();
+      const v = root?.getAttribute("data-shop-view") || "item";
+      return v === "cart" ? "cart" : "item";
+    }
+
+    function setShopView(next) {
+      const root = getShopRoot();
+      if (!root) return;
+      const view = next === "cart" ? "cart" : "item";
+      root.setAttribute("data-shop-view", view);
+      // Do NOT touch rightTitle (per your requirement)
+      renderShopTop();
+      renderShopCartCount();
+    }
+
+    function getSelectedShopItem() {
+      const root = getShopRoot();
+      if (!root) return null;
+      const id = root.getAttribute("data-selected-id") || "";
+      const name = root.getAttribute("data-selected-name") || "";
+      const src = root.getAttribute("data-selected-src") || "";
+      const price = clampNum(root.getAttribute("data-selected-price"), NaN);
+      return id ? { id, name, src, price: Number.isFinite(price) ? price : 2.99 } : null;
+    }
+
+    function setSelectedShopItem(item) {
+      const root = getShopRoot();
+      if (!root || !item) return;
+
+      root.setAttribute("data-selected-id", item.id);
+      root.setAttribute("data-selected-name", item.name);
+      root.setAttribute("data-selected-src", item.src);
+      root.setAttribute("data-selected-price", String(item.price));
+
+      // If user is viewing cart, switch back to item on selection
+      if (getShopView() === "cart") root.setAttribute("data-shop-view", "item");
+
+      renderShopTop();
+    }
+
+    function renderShopCartCount() {
+      const root = getShopRoot();
+      if (!root) return;
+      const badge = root.querySelector("#cartCount");
+      if (!badge) return;
+
+      const cart = loadCart();
+      badge.textContent = String(cartCount(cart));
+    }
+
+    function renderShopTop() {
+      const root = getShopRoot();
+      if (!root) return;
+
+      const top = root.querySelector("#shopRightTop");
+      if (!top) return;
+
+      const view = getShopView();
+
+      if (view === "cart") {
+        const cart = loadCart();
+        const total = cartTotal(cart);
+
+        top.innerHTML = `
+          <div class="shop-cartview">
+            <div class="bigline" id="itemName">Cart</div>
+
+            <div class="shop-cartlist" id="cartList">
+              ${
+                cart.length === 0
+                  ? `<div class="empty">Your cart is empty.</div>`
+                  : cart
+                      .map((x) => {
+                        const qty = clampNum(x?.qty, 1);
+                        const price = clampNum(x?.price, 0);
+                        const line = qty * price;
+
+                        return `
+                          <div class="cart-row" data-cart-id="${escapeHtml(String(x.id))}">
+                            <div class="cart-row__left">
+                              <div class="cart-row__name">${escapeHtml(String(x?.name || x?.id || "Item"))}</div>
+                              <div class="cart-row__meta">
+                                <span class="cart-row__qty">x${escapeHtml(String(qty))}</span>
+                                <span class="cart-row__price">${escapeHtml(fmtMoney(price))}</span>
+                              </div>
+                            </div>
+
+                            <div class="cart-row__right">
+                              <div class="cart-row__line">${escapeHtml(fmtMoney(line))}</div>
+                              <button class="cart-row__remove" type="button" data-action="remove-from-cart">Remove</button>
+                            </div>
+                          </div>
+                        `;
+                      })
+                      .join("")
+              }
+            </div>
+
+            <div class="shop-carttotal">
+              <div class="kicker">Total</div>
+              <div class="bigline shop-carttotal__value">${escapeHtml(fmtMoney(total))}</div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // ITEM view
+      const sel = getSelectedShopItem();
+      const name = sel?.name || "Select an emote";
+      const priceText = sel ? fmtMoney(sel.price) : "—";
+      const src = sel?.src || "";
+
+      top.innerHTML = `
+        <div class="shop-itemview">
+          <div class="centerwide__info shop-right__card">
+            <div class="shopthumb shop-right__thumb">
+              <img class="shopthumb__img" id="itemImg" src="${escapeHtml(src)}" alt="${escapeHtml(name)}" loading="lazy">
+            </div>
+
+            <div class="rule shop-right__rule"></div>
+
+            <div class="bigline" id="itemName">${escapeHtml(name)}</div>
+            <div class="kicker" id="itemCost">${escapeHtml(priceText)}</div>
+
+            <button class="btn btn--purchase" type="button" data-action="add-to-cart">
+              Add to Cart
             </button>
-          `
-          ).join("")}
+          </div>
         </div>
       `;
+    }
 
-      rightTitle.textContent = "[Selected Item]";
-      rightBody.innerHTML = `
-        <div class="centerwide__info" style="text-align:center;">
-          <div class="shopthumb" style="margin: 10px auto; width: 60%;"></div>
-          <div class="rule" style="width: 70%; margin: 16px auto;"></div>
-          <div class="bigline" id="itemName">[Item Name]</div>
-          <div class="kicker" id="itemCost" style="margin-top: 6px;">[Item Cost]</div>
-          <button class="btn btn--purchase" type="button" style="margin-top: 22px; background: var(--accent); color:#111; font-size: 34px;">Purchase</button>
-        </div>
-      `;
+    function ensureShopDelegates() {
+      // Left panel (selection)
+      if (leftBody.dataset.shopLeftDelegates !== "1") {
+        leftBody.dataset.shopLeftDelegates = "1";
+        leftBody.addEventListener("click", (e) => {
+          const grid = leftBody.querySelector("#shopGrid");
+          if (!grid) return; // not in shop tab
 
-      const grid = document.getElementById("shopGrid");
-      if (grid) {
-        grid.addEventListener("click", (e) => {
           const btn = e.target.closest(".shopitem");
-          if (!btn) return;
+          if (!btn || !grid.contains(btn)) return;
 
-          const idx = btn.getAttribute("data-item");
-          const itemName = document.getElementById("itemName");
-          const itemCost = document.getElementById("itemCost");
+          const id = btn.getAttribute("data-item-id");
+          if (!id) return;
 
-          if (itemName) itemName.textContent = `Item #${idx}`;
-          if (itemCost) itemCost.textContent = `$${(Number(idx) + 1) * 2}.99`;
+          const items = getShopItems();
+          const byId = Object.fromEntries(items.map((it) => [it.id, it]));
+          const item = byId[id];
+          if (!item) return;
+
+          // highlight selection
+          grid.querySelectorAll(".shopitem").forEach((b) => b.classList.toggle("is-active", b === btn));
+
+          setSelectedShopItem(item);
         });
       }
+
+      // Right panel (actions)
+      if (rightBody.dataset.shopRightDelegates !== "1") {
+        rightBody.dataset.shopRightDelegates = "1";
+        rightBody.addEventListener("click", (e) => {
+          const root = getShopRoot();
+          if (!root) return; // not in shop tab
+
+          const actionEl = e.target.closest("[data-action]");
+          if (!actionEl || !root.contains(actionEl)) return;
+
+          const action = actionEl.getAttribute("data-action");
+
+          if (action === "toggle-cart") {
+            const cur = getShopView();
+            setShopView(cur === "cart" ? "item" : "cart");
+            return;
+          }
+
+          if (action === "checkout") {
+            // linked later; keep stable for now
+            setShopView("cart");
+            return;
+          }
+
+          if (action === "add-to-cart") {
+            const sel = getSelectedShopItem();
+            if (!sel) return;
+
+            const cart = loadCart();
+            const existing = cart.find((x) => String(x?.id) === String(sel.id));
+
+            if (existing) {
+              existing.qty = clampNum(existing.qty, 1) + 1;
+              // keep latest metadata
+              existing.name = sel.name;
+              existing.src = sel.src;
+              existing.price = sel.price;
+            } else {
+              cart.push({ id: sel.id, name: sel.name, src: sel.src, price: sel.price, qty: 1 });
+            }
+
+            saveCart(cart);
+            renderShopCartCount();
+            if (getShopView() === "cart") renderShopTop();
+            return;
+          }
+
+          if (action === "remove-from-cart") {
+            const row = e.target.closest(".cart-row");
+            if (!row) return;
+
+            const id = row.getAttribute("data-cart-id");
+            const cart = loadCart().filter((x) => String(x?.id) !== String(id));
+            saveCart(cart);
+
+            renderShopCartCount();
+            renderShopTop();
+            return;
+          }
+        });
+      }
+    }
+
+    function renderShop() {
+      leftTitle.textContent = "Items";
+      // keep rightTitle stable (do not change when selection changes)
+      rightTitle.textContent = "Shop";
+
+      const items = getShopItems();
+      const byId = Object.fromEntries(items.map((it) => [it.id, it]));
+
+      // LEFT: grid of emote items
+      leftBody.innerHTML = `
+        <div class="shopgrid" id="shopGrid">
+          ${
+            items.length
+              ? items
+                  .map(
+                    (it) => `
+              <button class="shopitem" type="button" data-item-id="${escapeHtml(it.id)}">
+                <div class="shopthumb">
+                  <img class="shopthumb__img" src="${escapeHtml(it.src)}" alt="${escapeHtml(it.name)}" loading="lazy">
+                </div>
+                <div class="shopprice">${escapeHtml(fmtMoney(it.price))}</div>
+              </button>
+            `
+                  )
+                  .join("")
+              : `<div class="empty">No emotes found. Populate window.AOC.DATA.EMOTES.</div>`
+          }
+        </div>
+      `;
+
+      // RIGHT: top swaps; bottom bar always present (CSS keeps it pinned)
+      rightBody.innerHTML = `
+        <div class="shop-right" data-shop-view="item" data-selected-id="" data-selected-name="" data-selected-src="" data-selected-price="">
+          <div class="shop-right__top" id="shopRightTop"></div>
+
+          <div class="shop-right__bottom">
+            <button class="btn shop-cartbtn" type="button" data-action="toggle-cart">
+              Cart <span class="shop-cartbtn__count" id="cartCount">0</span>
+            </button>
+            <button class="btn shop-checkoutbtn" type="button" data-action="checkout">
+              Checkout
+            </button>
+          </div>
+        </div>
+      `;
+
+      ensureShopDelegates();
+
+      // Default select first item (and highlight it)
+      if (items[0]) {
+        setSelectedShopItem(items[0]);
+
+        const grid = document.getElementById("shopGrid");
+        const firstBtn = grid?.querySelector(`.shopitem[data-item-id="${CSS.escape(items[0].id)}"]`);
+        if (firstBtn) firstBtn.classList.add("is-active");
+      } else {
+        renderShopTop();
+      }
+
+      renderShopCartCount();
     }
 
     // =========================================================
@@ -808,9 +1107,10 @@
       initTabs();
       initCivSelect();
 
-      // bind delegates once (leaderboard handlers are delegated on bodies)
+      // delegated handlers (safe to bind once)
       ensureLeaderboardDelegates(leftBody);
       ensureLeaderboardDelegates(rightBody);
+      ensureShopDelegates();
     } catch (err) {
       console.error("[AoC] home.js boot error:", err);
     }
