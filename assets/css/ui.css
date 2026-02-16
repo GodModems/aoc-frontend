@@ -117,7 +117,7 @@ body.aoc{
    ========================================================================== */
 
 .panel{
-  background: var(--panel-2);
+  background: var(--panel-light);
   border: var(--border-xl) solid var(--accent);
   border-radius: var(--radius-0);
   box-shadow: var(--shadow-lg);
@@ -127,7 +127,7 @@ body.aoc{
 
 .panel--title{
   min-height: 96px;
-  background: var(--panel);
+  background: var(--panel-dark);
 }
 .panel--footer{ 
   min-height: 96px; 
@@ -170,7 +170,7 @@ body.aoc{
   margin: 20px;
   border: var(--border-lg) solid var(--accent);
   border-radius: var(--radius-lg);
-  background: var(--panel-2);
+  background: var(--panel-light);
   width: 100%;
 }
 
@@ -373,6 +373,8 @@ body.aoc{
 }
 
 .btn{
+  position: relative;
+  overflow: hidden;                 /* important for overlay */
   border: 0;
   border-radius: var(--radius-lg);
   cursor: pointer;
@@ -384,6 +386,42 @@ body.aoc{
   justify-content: center;
   place-self: center;
   user-select: none;
+  box-shadow: var(--shadow-md);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.btn::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.16); /* hover color wash */
+  opacity: 0;
+  transition: opacity 140ms ease;
+  pointer-events: none;
+}
+
+.btn:hover::after{ opacity: 1; }
+.btn:hover{ transform: translateY(-1px); }
+.btn:active{ transform: translateY(0px); }
+
+/* keyboard focus */
+.btn:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+/* persistent "hover wash" for the active page button */
+.btn.is-active::after{
+  opacity: 1;
+}
+
+/* optional: make active stand out more */
+.btn.is-active{
+  box-shadow: inset 0 0 0 100px var(--shade-3);
+}
+
+/* optional: active + hover slightly stronger */
+.btn.is-active:hover::after{
+  opacity: 1; /* keep it on */
 }
 
 
@@ -396,14 +434,12 @@ body.aoc{
   font-size: 44px;
   letter-spacing: 1px;
   background: var(--btn-play);
-  box-shadow: var(--shadow-md);
   display: grid;
   grid-template-rows: 1fr auto 1fr; 
   align-items: center;
   justify-items: center;
   gap: 12px;
   padding: 18px 14px;
-  background: var(--btn-play)
 }
 
 .btn--play .btn__logo{
@@ -486,21 +522,34 @@ body.aoc{
 
 .userbox__name{
   height: 36px;
-  border: 2px solid var(--accent);
+  border: 3px solid var(--accent);
   border-radius: 5px;
   font-weight: 700;
   letter-spacing: .5px;
-  background: var(--panel);
+  background: var(--panel-dark);
   color: var(--text);
 }
 
 .btn--footerbar{
-  background: var(--panel);
+  cursor: pointer;
+  background: var(--panel-dark);
   border: 2px solid var(--accent);
   border-radius: 2px;
   height: 2em;
   color: var(--text);
 }
+
+.btn--footerbar::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.16); /* hover color wash */
+  opacity: 0;
+  transition: opacity 140ms ease;
+  pointer-events: none;
+}
+
+.btn--footerbar:hover::after{ opacity: 1; }
 
 /* ==========================================================================
    HOME: EMOTES / TABLES
@@ -571,7 +620,7 @@ body.aoc{
 }
 
 .lb-controls select{
-  background: var(--panel-2);
+  background: var(--panel-light);
   color: var(--text);
   border: 1px solid var(--line-1);
   border-radius: var(--radius-sm);
@@ -589,7 +638,7 @@ body.aoc{
   position: sticky;
   top: 0;
   z-index: 2;
-  background: var(--panel);
+  background: var(--panel-dark);
   text-align: center;
 }
 
@@ -717,7 +766,7 @@ body.aoc{
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  background: var(--panel-2);
+  background: var(--panel-light);
 }
 
 .shop-cartbtn,
@@ -1018,7 +1067,7 @@ body.aoc{
   width: min(680px, calc(100% - 24px));
   border: var(--border-xl) solid var(--accent);
   border-radius: var(--radius-xl);
-  background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+  background: linear-gradient(180deg, var(--panel-dark) 0%, var(--panel-light) 100%);
   box-shadow: var(--shadow-xl);
   overflow: hidden;
 }
@@ -1156,26 +1205,24 @@ body.aoc{
    ========================================================================== */
 
 .civstats-grid{
+  padding: 10px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  overflow: hidden;
+  gap: 12px;
   background: var(--shade-1);
-  border-bottom: 2px solid var(--accent);
 }
 
 .civstat{
   display: flex;
-  gap: 12px;
+  gap: 16px;
   align-items: center;
-  padding: 18px 12px;
-  background: var(--panel);
-  border-right: 2px solid var(--accent);
-  border-bottom: 2px solid var(--accent);
+  padding: 24px 12px;
+  background: var(--panel-dark);
+  border: 2px solid var(--accent);
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.civstat:nth-child(2n){ border-right: 0; }
-.civstat:nth-last-child(-n+2){ border-bottom: 0; }
 
 .civstat.is-active{
   box-shadow: inset 0 0 12px 6px var(--accent);
@@ -1183,8 +1230,8 @@ body.aoc{
 
 .civstat__icon{
   position: relative;
-  width: 56px;
-  height: 56px;
+  aspect-ratio: 1;
+  height: 100%;
   flex: 0 0 56px;
   display: grid;
   place-items: center;
@@ -1267,12 +1314,15 @@ body.aoc{
   flex-direction: column;
   height: 100%;
   overflow: auto;
+  gap: 3px;
+  padding: 3px 3px 0 3px;
 }
 
 .mh-card{
   width: 100%;
-  border: 0;
-  border-bottom: 2px solid var(--accent);
+  border: 2px solid var(--line-1);
+  box-shadow: inset 0px 0px 5px 4px var(--line-1);
+  border-radius: 5px;
   overflow: hidden;
   background: transparent;
   cursor: pointer;
@@ -1368,6 +1418,21 @@ body.aoc{
 .mh-delta.neg{ color: var(--elo-lose); }
 .mh-delta.neu{ color: var(--board-dark); }
 
+.mh-card[data-result="win"]{
+  border-color: var(--elo-gain);
+  box-shadow: inset 0px 0px 5px 4px var(--elo-gain);
+}
+
+.mh-card[data-result="loss"]{
+  border-color: var(--elo-lose);
+  box-shadow: inset 0px 0px 5px 4px var(--elo-lose);
+}
+
+.mh-card[data-result="draw"]{
+  border-color: var(--accent);
+  box-shadow: inset 0px 0px 5px 4px var(--accent);
+}
+
 /* text colors mirror based on which color YOU played */
 .mh-card[data-self-color="white"] .mh-side--left{  color: var(--board-dark); }
 .mh-card[data-self-color="white"] .mh-side--right{ color: var(--board-light); }
@@ -1385,21 +1450,20 @@ body.aoc{
   background: linear-gradient(
     90deg,
     var(--mh-light) 0%,
-    var(--mh-light) 30%,
-    var(--mh-mid)   50%,
-    var(--mh-dark)  70%,
+    var(--mh-light) 50%,
+    var(--mh-dark)  50%,
     var(--mh-dark)  100%
   );
 }
+
 
 .mh-card.self-black,
 .mh-card[data-self-color="black"]{
   background: linear-gradient(
     90deg,
     var(--mh-dark)  0%,
-    var(--mh-dark)  30%,
-    var(--mh-mid)   50%,
-    var(--mh-light) 70%,
+    var(--mh-dark)  50%,
+    var(--mh-light) 50%,
     var(--mh-light) 100%
   );
 }

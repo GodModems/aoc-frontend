@@ -40,6 +40,7 @@
       selfTimeLeft: "4:12",
       oppTimeLeft: "0:31",
       delta: +24,
+      result: "win",
     },
     {
       id: "m2",
@@ -53,6 +54,7 @@
       selfTimeLeft: "1:04",
       oppTimeLeft: "3:55",
       delta: -18,
+      result: "loss",
     },
     {
       id: "m3",
@@ -66,6 +68,7 @@
       selfTimeLeft: "0:58",
       oppTimeLeft: "0:58",
       delta: +3,
+      result: "draw",
     },
   ];
 })();

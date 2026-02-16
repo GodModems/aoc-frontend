@@ -12,8 +12,8 @@
   /* Core palette */
   --bg: #1f1f1f;
 
-  --panel: #202020;
-  --panel-2: #252525;
+  --panel-dark: #1f1f1f;
+  --panel-light: #292929;
 
   --text: #f2f2f2;
   --muted: rgba(255,255,255,.7);
@@ -55,7 +55,7 @@
 
   /* Elevation */
   --shadow-soft: color-mix(in srgb, var(--shadow) 70%, transparent);
-  --shadow-md: 0 10px 26px var(--shadow);
+  --shadow-md: 0 10px 2px var(--shadow);
   --shadow-lg: 0 12px 40px var(--shadow);
   --shadow-xl: 0 20px 70px var(--shadow);
 
@@ -65,7 +65,7 @@
 
   --shade-1: color-mix(in srgb, var(--board-dark) 10%, transparent);
   --shade-2: color-mix(in srgb, var(--board-dark) 16%, transparent);
-  --shade-3: color-mix(in srgb, var(--board-dark) 35%, transparent);
+  --shade-3: color-mix(in srgb, var(--board-dark) 60%, transparent);
 
   --line-1:  color-mix(in srgb, var(--text) 10%, transparent);
   --line-2:  color-mix(in srgb, var(--text) 12%, transparent);
@@ -73,10 +73,10 @@
   --ring-dim: color-mix(in srgb, var(--board-dark) 25%, transparent);
 
   --overlay: color-mix(in srgb, var(--board-dark) 55%, transparent);
-  --menu-bg: color-mix(in srgb, var(--panel-2) 92%, var(--bg) 8%);
+  --menu-bg: color-mix(in srgb, var(--panel-light) 92%, var(--bg) 8%);
 
   /* Light-surface helpers (used by clock/playercard) */
-  --surface-light: color-mix(in srgb, var(--board-light) 88%, var(--panel) 12%);
+  --surface-light: color-mix(in srgb, var(--board-light) 88%, var(--panel-dark) 12%);
   --on-light: var(--board-dark);
   --muted-on-light: color-mix(in srgb, var(--board-dark) 60%, var(--board-light) 40%);
 
@@ -94,8 +94,8 @@
 :root[data-theme="gold"]{
   --bg: #1f1f1f;
 
-  --panel: #2a2a2a;
-  --panel-2: #252525;
+  --panel-dark: #2a2a2a;
+  --panel-light: #252525;
   --text: #f2f2f2;
   --muted: rgba(255,255,255,.7);
 
@@ -120,8 +120,8 @@
   /* Core palette (green / parchment theme) */
   --bg: #425133;
 
-  --panel: #EBECD0;
-  --panel-2: #E1DFC3;
+  --panel-dark: #EBECD0;
+  --panel-light: #E1DFC3;
 
   --text: #16210B;
   --muted: rgba(22, 33, 11, .70);
@@ -153,8 +153,8 @@
   /* Burgundy / Tan (from the brown board mock) */
   --bg: #4d3434;
 
-  --panel: #f0d9b5;     /* parchment surfaces */
-  --panel-2: #462f2f;   /* dark cards (move history) */
+  --panel-dark: #f0d9b5;     /* parchment surfaces */
+  --panel-light: #462f2f;   /* dark cards (move history) */
 
   --text: #1a0d0d;      /* text on parchment */
   --muted: rgba(26, 13, 13, .70);
@@ -183,8 +183,8 @@
   /* Pink / Magenta (from the pink board mock) */
   --bg: #fae9f7;
 
-  --panel: #fae3f5;     /* light pink surfaces */
-  --panel-2: #751f62;   /* deep magenta cards (move history) */
+  --panel-dark: #fae3f5;     /* light pink surfaces */
+  --panel-light: #751f62;   /* deep magenta cards (move history) */
 
   --text: #751f62;      /* text on light surfaces */
   --muted: rgba(117, 31, 98, .70);

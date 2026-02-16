@@ -386,6 +386,7 @@
         <button class="mh-card ${isActive ? "is-active" : ""} self-${escapeHtml(safeColor)}" type="button"
           data-match="${escapeHtml(m.id)}"
           data-self-color="${escapeHtml(safeColor)}"
+          data-result="${escapeHtml(m.result)}"
         >
           <div class="mh-card__inner">
             <div class="mh-side mh-side--left">
@@ -440,7 +441,9 @@
 
       const state0 = loadState();
       const state =
-        state0.selectedCivId && !civById[state0.selectedCivId] ? saveState({ selectedCivId: null }) : state0;
+        state0.selectedCivId && !civById[state0.selectedCivId]
+          ? saveState({ selectedCivId: null })
+          : state0;
 
       // ---- Civ Stats (left) ----
       leftBody.innerHTML = `
@@ -528,14 +531,20 @@
               ? `<div class="empty">No matches yet.</div>`
               : ordered
                   .map((m) => {
-                    const selfColor = toSelfColor(m.selfColor ?? m.playerColor ?? m.color ?? m.side ?? m.youColor);
+                    const selfColor = toSelfColor(
+                      m.selfColor ?? m.playerColor ?? m.color ?? m.side ?? m.youColor
+                    );
 
                     const selfDelta = clampNum(m.delta, 0);
                     const oppDelta = -selfDelta;
 
                     // IMPORTANT: match history ELO comes from the match seed, not civStats
                     const selfElo =
-                      m.selfElo != null ? clampNum(m.selfElo, 0) : m.elo != null ? clampNum(m.elo, 0) : "—";
+                      m.selfElo != null
+                        ? clampNum(m.selfElo, 0)
+                        : m.elo != null
+                          ? clampNum(m.elo, 0)
+                          : "—";
                     const oppElo = m.oppElo != null ? clampNum(m.oppElo, 0) : "—";
 
                     const selfTimeLeft = m.selfTimeLeft ?? "—";
@@ -544,7 +553,19 @@
                     const selfCivIcon = civById[m.civId]?.icon ?? fallbackIcon;
 
                     const oppCivId = m.oppCivId ?? m.opponentCivId ?? m.oppCiv ?? null;
-                    const oppCivIcon = oppCivId && civById[oppCivId]?.icon ? civById[oppCivId].icon : fallbackIcon;
+                    const oppCivIcon =
+                      oppCivId && civById[oppCivId]?.icon ? civById[oppCivId].icon : fallbackIcon;
+
+                    // Prefer seeded result; fallback to delta if missing
+                    const raw = String(m.result || "").trim().toLowerCase();
+                    const result =
+                      raw === "win" || raw === "loss" || raw === "draw"
+                        ? raw
+                        : selfDelta > 0
+                          ? "win"
+                          : selfDelta < 0
+                            ? "loss"
+                            : "draw";
 
                     return matchCardHTML({
                       m,
@@ -559,6 +580,7 @@
                       isActive: m.id === selectedMatchId,
                       selfCivIcon,
                       oppCivIcon,
+                      result, // <-- REQUIRED for data-result styling
                     });
                   })
                   .join("")
@@ -578,6 +600,7 @@
         });
       }
     }
+
 
     // =========================================================
     // LEADERBOARD (mode + civ controls, scrollable)
